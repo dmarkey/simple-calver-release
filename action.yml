@@ -1,0 +1,29 @@
+name: 'Simple Calver Release'
+description: 'Simple Calendar version based release tool'
+inputs:
+  pr-number:
+    description: 'The PR that has been merged'
+    required: true
+  version-scheme:
+    description: 'The Version scheme to use'
+    required: true
+    default: "%Y.%j"
+  mainline-branch:
+    description: 'The main release branch'
+    required: true
+    default: "main"
+  create-prs-for-hotfixes-to-mainline:
+    description: 'When a hotfix is merged, open a PR to mainline'
+    required: true
+    default: "true"
+outputs:
+  released-version: # id of output
+    description: 'The release version, if successful'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.pr-number }}
+    - ${{ inputs.version-scheme }}
+    - ${{ inputs.mainline-branch }}
+    - ${{ inputs.create-prs-for-hotfixes-to-mainline }}
